@@ -189,25 +189,25 @@ class HomeScreen extends StatelessWidget {
                       title: "Data Analytics Essentials",
                       organization: "Cisco",
                       year: "",
-                      imagePath: "assets/images/cert_data_analytics.png",
+                      imagePath: "assets/images/data_analytics_certif.png",
                     ),
                     certificationItem(
                       title: "Introduction to Data Science",
                       organization: "Cisco",
                       year: "",
-                      imagePath: "assets/images/cert_intro_data_science.png",
+                      imagePath: "assets/images/introductio_data_science.png",
                     ),
                     certificationItem(
                       title: "Introduction to Python",
                       organization: "Cisco",
                       year: "",
-                      imagePath: "assets/images/cert_intro_python.png",
+                      imagePath: "assets/images/python_essential_certif.png",
                     ),
                     certificationItem(
                       title: "Using Computer and Mobile Devices",
                       organization: "Cisco",
                       year: "",
-                      imagePath: "assets/images/cert_using_computer_mobile.png",
+                      imagePath: "assets/images/using_computer_certif.png",
                     ),
                   ],
                 ),
@@ -274,11 +274,11 @@ class HomeScreen extends StatelessWidget {
         children: [
           Image.asset(
             imagePath,
-            width: 48,
-            height: 48,
+            width: 348,
+            height: 548,
             fit: BoxFit.contain,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 3),
           Expanded(
             child: RichText(
               text: TextSpan(
