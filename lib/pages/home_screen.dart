@@ -176,6 +176,7 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         const VideoProjectCard(
                           title: "Bricoleur.cm",
+                          technologies: ["Flutter", "Django", "PostgreSQL"],
                           description:
                               "Marketplace pour bricoleurs. Les techniciens s’inscrivent et offrent leurs services en ligne.",
                           videoAsset: "assets/videos/lebricoleur.mp4",
@@ -189,6 +190,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         projectCard(
                           title: "Foodie App",
+                          technologies: ["C#", "Django", "PostgreSQL"],
                           description:
                               "Application mobile de gestion de restaurant avec paiement mobile, notifications, et interface Flutter.",
                           imageUrls: [
@@ -201,6 +203,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         projectCard(
                           title: "Ecommerce 237",
+                          technologies: ["Flutter", "Python", "Django"],
                           description:
                               "Site e-commerce en Flutter + Python pour la vente de vêtements avec paiement intégré.",
                           imageUrls: [
@@ -213,6 +216,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         projectCard(
                           title: "ImmoShare",
+                          technologies: ["Vue.js", "Django", "PostgreSQL"],
                           description:
                               "Application web PWA de location de logements. Vue.js + backend Django.",
                           imageUrls: [
@@ -283,6 +287,7 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(height: 16),
                       ContactForm(), // <-- Ajoute simplement ce widget ici
                     
+                      SizedBox(height: 16),
                       const Footer()
                     ],
                   ),
@@ -296,10 +301,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget projectCard({
+Widget projectCard({
   required String title,
   required String description,
   required List<String> imageUrls,
+  required List<String> technologies, // <-- Ajoute ce paramètre
 }) {
   return Card(
     margin: const EdgeInsets.symmetric(vertical: 12.0),
@@ -312,9 +318,21 @@ class HomeScreen extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 8),
+          // Affiche les technologies utilisées
+          Wrap(
+            spacing: 8,
+            children: technologies
+                .map((tech) => Chip(
+                      label: Text(tech),
+                      backgroundColor: Colors.purple.shade50,
+                      labelStyle: const TextStyle(color: Colors.purple),
+                    ))
+                .toList(),
+          ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 400, // Hauteur plus grande pour les images
+            height: 400,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: imageUrls.length,
@@ -323,7 +341,7 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
                   imageUrls[index],
-                  width: 320,  // Largeur plus grande pour l’image
+                  width: 320,
                   height: 0,
                   fit: BoxFit.cover,
                 ),
@@ -496,7 +514,7 @@ class VideoProjectCard extends StatefulWidget {
     required this.title,
     required this.description,
     required this.videoAsset,
-    required this.imageUrls,
+    required this.imageUrls, required List<String> technologies,
   });
 
   @override
