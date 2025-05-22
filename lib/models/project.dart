@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Project {
   final String title;
   final String descriptionFR;

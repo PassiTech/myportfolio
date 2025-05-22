@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -263,39 +264,29 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  // Contact
-                  Container(
-                    key: contactKey,
-                    padding: const EdgeInsets.symmetric(vertical: 48.0),
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Contact",
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple,
-                          ),
+                  // ...existing code...
+                // Contact
+                Container(
+                  key: contactKey,
+                  padding: const EdgeInsets.symmetric(vertical: 48.0),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Contact",
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple,
                         ),
-                        SizedBox(height: 16),
-                        Text("📧 Email : noubissiepascaline02@gmail.com"),
-                        Text("📱 Téléphone : +237 655354265"),
-                        Text(
-                          "🔗 LinkedIn : www.linkedin.com/in/pascaline-noubissie-208b80241",
-                        ),
-                        SizedBox(height: 24),
-                        Text(
-                          "Envoyez-moi un message :",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8),
-                        Placeholder(
-                          fallbackHeight: 150,
-                        ), // Remplace par ton formulaire de contact
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 16),
+                      ContactForm(), // <-- Ajoute simplement ce widget ici
+                    
+                      const Footer()
+                    ],
                   ),
+                ),
                 ],
               ),
             ),
@@ -333,7 +324,7 @@ class HomeScreen extends StatelessWidget {
                 child: Image.asset(
                   imageUrls[index],
                   width: 320,  // Largeur plus grande pour l’image
-                  height: 280,
+                  height: 0,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -358,7 +349,7 @@ class HomeScreen extends StatelessWidget {
     child: Padding(
       padding: const EdgeInsets.all(12.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
             imagePath,
@@ -394,6 +385,105 @@ class HomeScreen extends StatelessWidget {
 
 }
 
+class ContactForm extends StatefulWidget {
+  const ContactForm({super.key});
+
+  @override
+  State<ContactForm> createState() => _ContactFormState();
+}
+
+class _ContactFormState extends State<ContactForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Message envoyé avec succès !')),
+      );
+      _formKey.currentState!.reset();
+      _nameController.clear();
+      _emailController.clear();
+      _messageController.clear();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _nameController,
+            decoration: const InputDecoration(
+              labelText: "Nom",
+              border: OutlineInputBorder(),
+            ),
+            validator: (value) =>
+                value == null || value.isEmpty ? "Veuillez entrer votre nom" : null,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _emailController,
+            decoration: const InputDecoration(
+              labelText: "Email",
+              border: OutlineInputBorder(),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Veuillez entrer votre email";
+              }
+              final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+              if (!emailRegex.hasMatch(value)) {
+                return "Veuillez entrer un email valide";
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _messageController,
+            decoration: const InputDecoration(
+              labelText: "Message",
+              border: OutlineInputBorder(),
+            ),
+            maxLines: 5,
+            validator: (value) =>
+                value == null || value.isEmpty ? "Veuillez entrer un message" : null,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: _submitForm,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.purple,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            ),
+            child: const Text(
+              "Envoyer",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class VideoProjectCard extends StatefulWidget {
   final String title;
@@ -436,6 +526,7 @@ class _VideoProjectCardState extends State<VideoProjectCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.purple, 
       margin: const EdgeInsets.symmetric(vertical: 12.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -449,7 +540,7 @@ class _VideoProjectCardState extends State<VideoProjectCard> {
             const SizedBox(height: 12),
             if (_controller.value.isInitialized)
               SizedBox(
-                width: 320,  // même largeur que les images
+                width: 400,  // même largeur que les images
                 height: 280,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
@@ -488,3 +579,70 @@ class _VideoProjectCardState extends State<VideoProjectCard> {
     );
   }
 }
+
+
+class Footer extends StatelessWidget {
+  const Footer({super.key});
+
+  // Fonction pour ouvrir un lien
+  Future<void> _launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception('Impossible d’ouvrir le lien : $url');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.purple,
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            "© 2025 Mon Portfolio - Tous droits réservés",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: () => _launchUrl("mailto:noubissiepascaline02@gmail.com"),
+            child: const Text(
+              "📧 Email : noubissiepascaline02@gmail.com",
+              style: TextStyle(
+                color: Colors.white,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => _launchUrl("tel:+237655354265"),
+            child: const Text(
+              "📱 Téléphone : +237 655354265",
+              style: TextStyle(
+                color: Colors.white,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => _launchUrl("https://www.linkedin.com/in/pascaline-noubissie-208b80241"),
+            child: const Text(
+              "🔗 LinkedIn : www.linkedin.com/in/pascaline-noubissie-208b80241",
+              style: TextStyle(
+                color: Colors.white,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
