@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class HomeScreen extends StatelessWidget {
   final bool isDarkMode;
@@ -163,11 +164,12 @@ class HomeScreen extends StatelessWidget {
                           "Site e-commerce pour vêtements avec Flutter frontend, backend Python, gestion des commandes et paiement en ligne.",
                       imageUrl: 'assets/images/01_Start.png',
                     ),
-                    projectCard(
+                    // Ici on remplace projectCard par VideoProjectCard
+                    const VideoProjectCard(
                       title: "Bricoleur.cm",
                       description:
                           "Marketplace de services de bricolage avec inscription de techniciens, géolocalisation et gestion de profils.",
-                      imageUrl: 'assets/images/01_Start.png',
+                      videoAsset: 'assets/videos/bricoleur_demo.mp4',
                     ),
                   ],
                 ),
@@ -284,9 +286,8 @@ class HomeScreen extends StatelessWidget {
               text: TextSpan(
                 style: const TextStyle(color: Colors.black, fontSize: 16),
                 children: [
-                  TextSpan(text: "$title\n", style: const
-                TextStyle(fontWeight: FontWeight.bold)),
-                TextSpan(text: "$organization $year"),
+                  TextSpan(text: "$title\n", style: const TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: "$organization $year"),
                 ],
               ),
             ),
@@ -297,6 +298,100 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+class VideoProjectCard extends StatefulWidget {
+  final String title;
+  final String description;
+  final String videoAsset;
+
+  const VideoProjectCard({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.videoAsset,
+  });
+
+  @override
+  State<VideoProjectCard> createState() => _VideoProjectCardState();
+}
+
+class _VideoProjectCardState extends State<VideoProjectCard> {
+  late VideoPlayerController _controller;
+  bool _isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset(widget.videoAsset)
+      ..initialize().then((_) {
+        setState(() {}); // pour rafraîchir l'UI une fois la vidéo chargée
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      if (_controller.value.isPlaying) {
+        _controller.pause();
+        _isPlaying = false;
+      } else {
+        _controller.play();
+        _isPlaying = true;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            _controller.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        VideoPlayer(_controller),
+                        if (!_isPlaying)
+                          IconButton(
+                            icon: const Icon(Icons.play_circle_fill, size: 64, color: Colors.white70),
+                            onPressed: _togglePlayPause,
+                          )
+                        else
+                          GestureDetector(
+                            onTap: _togglePlayPause,
+                            child: Container(
+                              color: Colors.transparent,
+                            ),
+                          )
+                      ],
+                    ),
+                  )
+                : const SizedBox(
+                    height: 200,
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+            const SizedBox(height: 12),
+            Text(widget.description),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Formulaire de contact (simple)
 class ContactForm extends StatefulWidget {
   const ContactForm({super.key});
 
@@ -318,49 +413,51 @@ class _ContactFormState extends State<ContactForm> {
     super.dispose();
   }
 
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      // Ici, tu peux traiter l'envoi du message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Message envoyé !')),
+      );
+      _nameController.clear();
+      _emailController.clear();
+      _messageController.clear();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-        TextFormField(
-          controller: _nameController,
-          decoration: const InputDecoration(labelText: 'Nom'),
-          validator: (value) => (value == null || value.isEmpty) ? 'Veuillez entrer votre nom' : null,
-        ),
-        TextFormField(
-          controller: _emailController,
-          decoration: const InputDecoration(labelText: 'Email'),
-          keyboardType: TextInputType.emailAddress,
-          validator: (value){
-            if (value == null || value.isEmpty) return 'Veuillez entrer votre email';
-            final regex = RegExp(r'^[^@]+@[^@]+.[^@]+');
-            if (!regex.hasMatch(value)) return 'Entrez un email valide';
-            return null;
-          },
-        ),
-        TextFormField(
-          controller: _messageController,
-          decoration: const InputDecoration(labelText: 'Message'),
-          maxLines: 5,
-          validator: (value) => value == null || value.isEmpty ? 'Veuillez écrire un message' : null,
-        ),
-        const SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Message envoyé !')),
-              );
-              _nameController.clear();
-              _emailController.clear();
-              _messageController.clear();
-            }
-          },
-          child: const Text('Envoyer'),
-        ),
-      ],
+          TextFormField(
+            controller: _nameController,
+            decoration: const InputDecoration(labelText: 'Nom'),
+            validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer votre nom' : null,
+          ),
+          TextFormField(
+            controller: _emailController,
+            decoration: const InputDecoration(labelText: 'Email'),
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Veuillez entrer votre email';
+              final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+              if (!emailRegex.hasMatch(value)) return 'Veuillez entrer un email valide';
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _messageController,
+            decoration: const InputDecoration(labelText: 'Message'),
+            maxLines: 3,
+            validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer un message' : null,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _submit,
+            child: const Text('Envoyer'),
+          ),
+        ],
       ),
     );
   }
