@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   video_player: ^2.9.5
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -56,13 +57,27 @@ flutter:
 
   assets:
     - assets/images/01_Start.png
-    - assets/images/02_Create_Account.png
     - assets/images/01_Start.png
     - assets/images/data_analytics_certif.png
     - assets/images/introductio_data_science.png
     - assets/images/python_essential_certif.png
     - assets/images/using_computer_certif.png
-    - assets/videos/lebricoleur_presentation.mp4
+    - assets/videos/lebricoleur.mp4
+    - assets/images/Home-page-1.png
+    - assets/images/Login-page.png
+    - assets/images/edit-profile.png
+    - assets/images/Cart-Page.png
+    - assets/images/Cart-Page-1.png
+    - assets/images/login-market.png
+    - assets/images/create-account-market.png
+    - assets/images/image-search-market.png
+    - assets/images/My-Activity-ecom.png
+    - assets/images/history-market.png
+    - assets/images/login-bricoleur.jpg
+    - assets/images/register-bricoleur.jpg
+    - assets/images/home_bricoleur.jpg
+    - assets/images/detail-bricoleur.jpg
+    - assets/images/profile.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
