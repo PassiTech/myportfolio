@@ -256,42 +256,44 @@ class HomeScreen extends StatelessWidget {
                           title: "Introduction to Data Science",
                           organization: "Cisco",
                           year: "2025",
-                          imagePath: "assets/images/introductio_data_science.png",
+                          imagePath:
+                              "assets/images/introductio_data_science.png",
                         ),
                         certificationItem(
                           title: "Introduction to Python",
                           organization: "Cisco",
                           year: "2025",
-                          imagePath: "assets/images/python_essential_certif.png",
+                          imagePath:
+                              "assets/images/python_essential_certif.png",
                         ),
                       ],
                     ),
                   ),
 
                   // ...existing code...
-                // Contact
-                Container(
-                  key: contactKey,
-                  padding: const EdgeInsets.symmetric(vertical: 48.0),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Contact",
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
+                  // Contact
+                  Container(
+                    key: contactKey,
+                    padding: const EdgeInsets.symmetric(vertical: 48.0),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Contact",
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
-                      ContactForm(), // <-- Ajoute simplement ce widget ici
-                    
-                      SizedBox(height: 16),
-                      const Footer()
-                    ],
+                        SizedBox(height: 16),
+                        ContactForm(), // <-- Ajoute simplement ce widget ici
+
+                        SizedBox(height: 16),
+                        const Footer(),
+                      ],
+                    ),
                   ),
-                ),
                 ],
               ),
             ),
@@ -301,60 +303,64 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-Widget projectCard({
-  required String title,
-  required String description,
-  required List<String> imageUrls,
-  required List<String> technologies, // <-- Ajoute ce paramètre
-}) {
-  return Card(
-    margin: const EdgeInsets.symmetric(vertical: 12.0),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          // Affiche les technologies utilisées
-          Wrap(
-            spacing: 8,
-            children: technologies
-                .map((tech) => Chip(
-                      label: Text(tech),
-                      backgroundColor: Colors.purple.shade50,
-                      labelStyle: const TextStyle(color: Colors.purple),
-                    ))
-                .toList(),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 400,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: imageUrls.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 12),
-              itemBuilder: (context, index) => ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  imageUrls[index],
-                  width: 320,
-                  height: 0,
-                  fit: BoxFit.cover,
-                ),
+  Widget projectCard({
+    required String title,
+    required String description,
+    required List<String> imageUrls,
+    required List<String> technologies, // <-- Ajoute ce paramètre
+  }) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            // Affiche les technologies utilisées
+            Wrap(
+              spacing: 8,
+              children:
+                  technologies
+                      .map(
+                        (tech) => Chip(
+                          label: Text(tech),
+                          backgroundColor: Colors.purple.shade50,
+                          labelStyle: const TextStyle(color: Colors.purple),
+                        ),
+                      )
+                      .toList(),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 400,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: imageUrls.length,
+                separatorBuilder: (context, index) => const SizedBox(width: 12),
+                itemBuilder:
+                    (context, index) => ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        imageUrls[index],
+                        width: 320,
+                        height: 0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
               ),
             ),
-          ),
-          const SizedBox(height: 12),
-          Text(description),
-        ],
+            const SizedBox(height: 12),
+            Text(description),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget certificationItem({
     required String title,
@@ -362,45 +368,44 @@ Widget projectCard({
     required String year,
     required String imagePath,
   }) {
-  return Card(
-    margin: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            imagePath,
-            width: 400,
-            height: 350,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "$organization - $year",
-                  style: const TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ],
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              width: 400,
+              height: 350,
+              fit: BoxFit.contain,
             ),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "$organization - $year",
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 class ContactForm extends StatefulWidget {
@@ -448,8 +453,11 @@ class _ContactFormState extends State<ContactForm> {
               labelText: "Nom",
               border: OutlineInputBorder(),
             ),
-            validator: (value) =>
-                value == null || value.isEmpty ? "Veuillez entrer votre nom" : null,
+            validator:
+                (value) =>
+                    value == null || value.isEmpty
+                        ? "Veuillez entrer votre nom"
+                        : null,
           ),
           const SizedBox(height: 16),
           TextFormField(
@@ -478,8 +486,11 @@ class _ContactFormState extends State<ContactForm> {
               border: OutlineInputBorder(),
             ),
             maxLines: 5,
-            validator: (value) =>
-                value == null || value.isEmpty ? "Veuillez entrer un message" : null,
+            validator:
+                (value) =>
+                    value == null || value.isEmpty
+                        ? "Veuillez entrer un message"
+                        : null,
           ),
           const SizedBox(height: 24),
           ElevatedButton(
@@ -521,7 +532,7 @@ class _ContactFormState extends State<ContactForm> {
   State<VideoProjectCard> createState() => _VideoProjectCardState();
 }
 
-class _VideoProjectCardState extends State<VideoProjectCard> {
+// class _VideoProjectCardState extends State<VideoProjectCard> {
   late VideoPlayerController _controller;
 
   @override
@@ -648,7 +659,10 @@ class Footer extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => _launchUrl("https://www.linkedin.com/in/pascaline-noubissie-208b80241"),
+            onTap:
+                () => _launchUrl(
+                  "https://www.linkedin.com/in/pascaline-noubissie-208b80241",
+                ),
             child: const Text(
               "🔗 LinkedIn : www.linkedin.com/in/pascaline-noubissie-208b80241",
               style: TextStyle(
@@ -662,5 +676,3 @@ class Footer extends StatelessWidget {
     );
   }
 }
-
-
