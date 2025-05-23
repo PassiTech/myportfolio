@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
+//import 'package:video_player/video_player.dart';
 
 class HomeScreen extends StatelessWidget {
   final bool isDarkMode;
@@ -174,7 +174,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        const VideoProjectCard(
+                        /*const VideoProjectCard(
                           title: "Bricoleur.cm",
                           technologies: ["Flutter", "Django", "PostgreSQL"],
                           description:
@@ -187,7 +187,7 @@ class HomeScreen extends StatelessWidget {
                             "assets/images/detail-bricoleur.jpg",
                             "assets/images/profile.jpg",
                           ],
-                        ),
+                        ),*/
                         projectCard(
                           title: "Foodie App",
                           technologies: ["C#", "Django", "PostgreSQL"],
@@ -503,7 +503,7 @@ class _ContactFormState extends State<ContactForm> {
   }
 }
 
-class VideoProjectCard extends StatefulWidget {
+/* class VideoProjectCard extends StatefulWidget {
   final String title;
   final String description;
   final String videoAsset;
@@ -597,7 +597,7 @@ class _VideoProjectCardState extends State<VideoProjectCard> {
     );
   }
 }
-
+*/
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
