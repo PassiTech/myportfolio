@@ -57,7 +57,6 @@ flutter:
 
   assets:
     - assets/images/01_Start.png
-    - assets/images/01_Start.png
     - assets/images/data_analytics_certif.png
     - assets/images/introductio_data_science.png
     - assets/images/python_essential_certif.png
